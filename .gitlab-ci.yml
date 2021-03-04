@@ -1,0 +1,18 @@
+stages:
+  - DeployDev
+
+DeployDev:
+  stage: DeployDev
+  image: alpine
+  only:
+    - develop@eccube-base/eccube-base
+  script:
+    - apk update && apk add openssh rsync
+    - mkdir -p ~/.ssh
+    - ssh-keyscan -H $DEV_HOST  >> ~/.ssh/known_hosts
+    - echo "$DEV_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - echo "$DEV_ENV" > .env
+    - rsync -azP --rsync-path="sudo rsync" --exclude='.git*' --exclude='deployments/staging' --exclude='deployments/production' --exclude='node_modules' --exclude='vendor' --exclude='var' . $DEV_USER@$DEV_HOST:$DEV_PATH
+    - ssh $DEV_USER@$DEV_HOST "cd $DEV_PATH/eccube-base && yarn && sudo yarn build"
+    - ssh $DEV_USER@$DEV_HOST "cd $DEV_PATH/eccube-base/deployments/development && docker-compose exec -T app-web bash -c 'composer install && php bin/console eccube:generate:proxies && php bin/console cache:clear --no-warmup && php bin/console doctrine:schema:update --force'"

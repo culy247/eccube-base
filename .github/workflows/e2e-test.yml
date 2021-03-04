@@ -19,14 +19,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-18.04 ]
+        operating-system: [ ubuntu-20.04 ]
         php: [ 7.3 ]
-        db: [ pgsql ]
+        db: [ mysql ]
         group: [ admin01, admin02, admin03, front, installer ]
         include:
-          - db: pgsql
-            database_url: postgres://postgres:password@127.0.0.1:5432/eccube_db
-            database_server_version: 11
+          - db: mysql
+            database_url: mysql://dbuser:secret@127.0.0.1:5432/app
+            database_server_version: 8
           - group: admin01
             app_env: 'codeception'
           - group: admin02
@@ -38,13 +38,15 @@ jobs:
           - group: installer
             app_env: 'install'
     services:
-      postgres:
-        image: postgres:11
+      mysql:
+        image: mysql:8
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: app
+          MYSQL_USER: dbuser
+          MYSQL_PASSWORD: secret
         ports:
-          - 5432:5432
+          - 3306:3306
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
