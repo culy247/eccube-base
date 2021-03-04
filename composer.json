@@ -2,6 +2,13 @@
     "name": "culy/ec-cube-base",
     "description": "EC-CUBE EC open platform.",
     "type": "project",
+    "license": [
+       "GPL-2.0-only",
+       "proprietary"
+    ],
+    "support": {
+        "issues": "https://github.com/culy247/eccube-base/issues"
+    },
     "minimum-stability": "stable",
     "require": {
         "php": "^7.2",
