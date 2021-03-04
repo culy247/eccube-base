@@ -1,0 +1,123 @@
+version: "3.0"
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  mysql-database:
+    driver: local
+  mercure_data:
+    driver: local
+  mercure_config:
+    driver: local
+  ### ignore folder volume #####
+  var:
+    driver: local
+  vendor:
+    driver: local
+
+services:
+  ### ECCube4.1 ##################################
+  app-web:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+      args:
+        TIMEZONE: Asia/Tokyo
+    volumes:
+      - "./../..:/var/www/html"
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    ports:
+      - 9000:9000
+    networks:
+      - app
+
+  ### MySQL ##################################
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: secret
+
+    volumes:
+      - ./data/mysql-data:/var/lib/mysql
+    networks:
+      - app
+
+  ### Php Myadmin ##################################
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=mysql
+      - PMA_USER=dbuser
+      - PMA_PASSWORD=secret
+    volumes:
+      - ./data/phpmyadmin/sessions:/sessions
+    networks:
+      - app
+
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      # Uncomment the following line to disable HTTPS
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
+      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+    # Uncomment the following line to enable the development mode
+    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+
+    volumes:
+      - ./data/mercure/data:/data
+      - ./data/mercure/config:/config
+    networks:
+      - app
+
+  supervisor:
+    build:
+      context: .
+      dockerfile: ./docker/supervisor/Dockerfile
+      args:
+        TIMEZONE: Asia/Tokyo
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - app-web
+    volumes:
+      - ./../..:/var/www/html
+    networks:
+      - app
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - app-web
+      - mercure
+      - phpmyadmin
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./../..:/var/www/html
+    ports:
+      - "8080:80"
+      - "443:443"
+      - "8081:8081"
+      - "8082:8082"
+    links:
+      - app-web
+    networks:
+      - app
+

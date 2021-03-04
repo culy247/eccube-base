@@ -1,0 +1,15 @@
+monolog:
+    channels: ['front', 'admin', 'msteam']
+
+    handlers:
+        msteam:
+            type: service
+            id:   msteam.handler
+
+services:
+    msteam.handler:
+        class: Culy\Microsoft\Teams\TeamsLogHandler
+        public: false
+        arguments:
+            - '%env(MS_TEAM_WEBHOOK_URL)%'
+            - '%env(MS_TEAM_LOG_LEVEL)%'
