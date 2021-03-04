@@ -166,7 +166,8 @@
             "@auto-scripts"
         ],
         "post-create-project-cmd": [
-            
+            "@installer-scripts",
+            "@auto-scripts"
         ]
     },
     "conflict": {
