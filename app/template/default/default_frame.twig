@@ -36,7 +36,6 @@ file that was distributed with this source code.
     <link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     {% block stylesheet %}{% endblock %}
-    <script src="{{ asset('js/eventsource.polyfill.min.js', 'common') }}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script>
         $(function() {
@@ -100,6 +99,7 @@ file that was distributed with this source code.
             {% endif %}
 
             {# MAIN AREA #}
+            <div id="app-vue"></div>
             {% block main %}{% endblock %}
 
             {# Layout: MAIN_Bottom #}
@@ -157,5 +157,6 @@ file that was distributed with this source code.
     {{ include('snippet.twig', { snippets: plugin_snippets }) }}
 {% endif %}
     <script src="{{ asset('assets/js/customize.js', 'user_data') }}"></script>
+{{ include('Block/vue.twig') }}
 </body>
 </html>

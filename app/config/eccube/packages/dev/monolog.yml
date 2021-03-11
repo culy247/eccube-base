@@ -4,7 +4,7 @@ monolog:
             type:     buffer
             handler:  easylog
             channels: ["!event"]
-            level:    debug
+            level:    info
         easylog:
             type: service
             id:   easycorp.easylog.handler

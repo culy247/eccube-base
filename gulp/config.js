@@ -9,7 +9,7 @@ config.paths = {
   },
   assets: {
     scss: '/**/scss/**/*.scss',
-  },
+  }
 }
 config.server = 'http://localhost:8080'
 

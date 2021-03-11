@@ -5,10 +5,23 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            failed: 'doctrine://default?queue_name=failed'
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    table_name: messenger_messages
+                    queue_name: default
+                    redeliver_timeout: 3600
+                    auto_setup: true
+
+            failed:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    table_name: messenger_failed_messages
+                    queue_name: failed
+                    redeliver_timeout: 3600
+                    auto_setup: true
             # sync: 'sync://'
 
         routing:
             # Route your messages to the transports
-            'Customize\Message\SmsNotification': async
+            'Customize\Message\AutionNotification': async

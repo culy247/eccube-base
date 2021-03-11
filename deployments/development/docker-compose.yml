@@ -75,12 +75,14 @@ services:
       SERVER_NAME: ':80'
       MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
       MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
-    # Uncomment the following line to enable the development mode
-    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+      DEBUG: debug
+      # Uncomment the following line to enable the development mode
+    #command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
 
     volumes:
       - ./data/mercure/data:/data
-      - ./data/mercure/config:/config
+      - ./docker/mercure/config/Caddyfile.dev:/etc/caddy/Caddyfile
+      - ./docker/mercure/config/Caddyfile.dev:/etc/caddy/Caddyfile.dev
     networks:
       - app
 
@@ -96,6 +98,7 @@ services:
       - app-web
     volumes:
       - ./../..:/var/www/html
+      - ./docker/supervisor/worker.conf:/etc/supervisor/conf.d/supervisord.conf
     networks:
       - app
   nginx:

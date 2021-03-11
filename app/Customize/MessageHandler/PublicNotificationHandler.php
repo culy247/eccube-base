@@ -2,12 +2,12 @@
 
 namespace Customize\MessageHandler;
 
-use Customize\Message\SmsNotification;
+use Customize\Message\AutionNotification;
 
 class PublicNotificationHandler extends NotificationHandler
 {
-    public function __invoke(SmsNotification $message)
+    public function __invoke(AutionNotification $message)
     {
-        return $this->publish('message', ['type' => 1, 'content' => $message->getContent()]);
+        return $this->publish($message->getTopics(), $message->getPayload(), $message->getPrivate());
     }
 }

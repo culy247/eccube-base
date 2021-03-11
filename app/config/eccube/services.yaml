@@ -201,3 +201,8 @@ services:
           - { name: mobile_detect.mobile_detector.default }
           - { name: mobile_detect.mobile_detector }
         public: true
+    Customize\Mercure\JwtProvider:
+        - '%env(MERCURE_JWT_KEY)%'
+        - '%env(MERCURE_PUBLISH_TOPIC)%'
+        - '%env(MERCURE_SUBCRIBLE_TOPIC)%'
+        - '%env(MERCURE_PUBLISH_URL)%'

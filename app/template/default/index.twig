@@ -100,12 +100,6 @@ file that was distributed with this source code.
                 speed: 300
             });
         });
-
-        const eventSource = new EventSource('http://localhost:8081/.well-known/mercure?topic=message');
-        eventSource.onmessage = event => {
-            // Will be called every time an update is published by the server
-            console.log('EventSource',JSON.parse(event.data));
-        }
     </script>
 {% endblock javascript %}
 

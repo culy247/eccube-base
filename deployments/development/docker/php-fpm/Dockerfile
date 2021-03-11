@@ -19,6 +19,8 @@ RUN apt-get update && apt-get install -y \
     libicu-dev  \
     libonig-dev \
     libxslt1-dev \
+    fonts-noto \
+    fonts-noto-cjk \
     acl \
     && echo 'alias sf="php bin/console"' >> ~/.bashrc
 

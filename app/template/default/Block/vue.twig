@@ -1,0 +1,12 @@
+<script>
+    window.__ENV = window.__ENV || {
+        'mercure_token': "{{ mercure_get_token() }}",
+        'hub': "/hub",
+        'topics': "{{ env('MERCURE_SUBCRIBLE_TOPIC', '') }}",
+        'default_locale': 'ja',
+        'current_locale': 'ja',
+        'messages': {{ vue_messages()|json_encode|raw }},
+    }
+</script>
+<script src="{{ asset('js/vue/runtime.js', 'common') }}"></script>
+<script src="{{ asset('js/vue/app.js', 'common') }}"></script>

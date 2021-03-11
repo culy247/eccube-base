@@ -38,8 +38,6 @@ RUN mkdir -p /var/log/supervisor
 
 RUN mkdir -p /var/www/html
 
-COPY ./docker/supervisor/worker.conf /etc/supervisor/conf.d/supervisord.conf
-
 WORKDIR /var/www/html
 
 CMD ["/usr/bin/supervisord"]

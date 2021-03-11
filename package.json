@@ -31,19 +31,13 @@
     "prod:db-update": "yarn prod:console cache:clear --no-warmup && yarn prod:console eccube:generate:proxies && yarn prod:console doctrine:schema:update --force",
     "prod:reset": " yarn prod:console cache:clear --no-warmup && yarn prod:console eccube:install --no-interaction",
     "prod:clear-cache": "yarn prod:console cache:clear --no-warmup",
-    "build": "cross-env NODE_ENV=production gulp",
-    "start": "cross-env NODE_ENV=development gulp start"
+    "build": "cross-env NODE_ENV=production gulp && yarn vue-build",
+    "start": "cross-env NODE_ENV=development gulp start",
+    "vue-dev-server": "encore dev-server",
+    "vue-dev": "encore dev",
+    "vue-watch": "encore dev --watch",
+    "vue-build": "encore production --progress"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EC-CUBE/ec-cube.git"
-  },
-  "author": "",
-  "license": "GPL-2.0",
-  "bugs": {
-    "url": "https://github.com/EC-CUBE/ec-cube/issues"
-  },
-  "homepage": "https://www.ec-cube.net/",
   "lint-staged": {
     "*.php": [
       "cross-env vendor/bin/php-cs-fixer --config=.php_cs.dist --path-mode=intersection fix"
@@ -55,6 +49,7 @@
     }
   },
   "devDependencies": {
+    "@symfony/webpack-encore": "^1.1.2",
     "autoprefixer": "^9.6.4",
     "bootstrap": "^4.3.1",
     "bootstrap-sass": "^3.4.1",
@@ -73,6 +68,36 @@
     "normalize.css": "^5.0.0",
     "postcss-import": "^12.0.1",
     "process": "^0.11.10",
-    "sort-css-media-queries": "^1.4.3"
-  }
+    "sass-loader": "^11.0.0",
+    "sort-css-media-queries": "^1.4.3",
+    "vue-loader": "^15.9.6",
+    "vue-template-compiler": "^2.6.12"
+  },
+  "dependencies": {
+    "core-js": "^3.9.1",
+    "event-source-polyfill": "^1.0.22",
+    "vue": "^2.6.12",
+    "vue-i18n": "^8.24.0",
+    "vue-router": "^3.5.1",
+    "vue-sse": "^2.0.2"
+  },
+  "eslintConfig": {
+    "root": false,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }

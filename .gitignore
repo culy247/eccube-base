@@ -15,8 +15,8 @@ composer.phar
 /app/PluginData/*
 !/app/PluginData/.gitkeep
 /app/template/*
-!/app/template/common
 !/app/template/admin
+!/app/template/common
 !/app/template/default
 !/app/template/user_data
 /app/proxy/entity/*

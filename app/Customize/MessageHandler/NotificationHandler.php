@@ -19,11 +19,18 @@ abstract class NotificationHandler extends BaseHandler
         return $this->publisher;
     }
 
-    public function publish(string $topic, array $params)
+    public function publish(string $topic, $params, $private = false)
     {
+        log_info('publish', [
+            'topic' => $topic,
+            'params' => $params,
+            'private' => $private,
+        ]);
+
         $update = new Update(
             $topic,
-            json_encode($params)
+            json_encode($params),
+            //$private
         );
 
         $pub = $this->getPublisher();

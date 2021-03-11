@@ -14,7 +14,6 @@
 namespace Customize\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TopController extends AbstractController
@@ -23,12 +22,8 @@ class TopController extends AbstractController
      * @Route("/", name="homepage")
      * @Template("index.twig")
      */
-    public function index(MessageBusInterface $bus)
+    public function index()
     {
-        log_info('Test logger');
-        // will cause the SmsNotificationHandler to be called
-        $bus->dispatch(new \Customize\Message\SmsNotification('Message sent from top page'));
-
         return [];
     }
 }
