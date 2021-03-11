@@ -15,7 +15,7 @@ Encore
     // whenever the contents of that file change. This allows you to use aggressive
     // caching strategies. Use Encore.isProduction() to enable it only for production.
     .enableVersioning(false)
-    .addEntry('app', './frontend/src/main.js')
+    .addEntry('app', './vue/src/main.js')
     .enableVueLoader()
     //.splitEntryChunks()
     .enableSingleRuntimeChunk()
